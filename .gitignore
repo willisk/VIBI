@@ -1,0 +1,8 @@
+dataset
+__pycache__
+*.ckpt
+summary
+.vscode
+lightning_logs
+models
+results
