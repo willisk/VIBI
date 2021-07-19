@@ -1,22 +1,22 @@
 import os
 import math
 from collections import defaultdict
-
-from debug import debug
+import argparse
 
 import torch
 import torch.nn as nn
 import torch.optim
 
+import torchvision
 from torchvision.datasets import MNIST, CIFAR10
 from torch.utils.data import DataLoader, TensorDataset, random_split
 
 import torch.nn.functional as F
 import torchvision.transforms as T
 
-from models import ResNet, resnet18, resnet34, Unet
+import matplotlib.pyplot as plt
 
-import argparse
+from models import ResNet, resnet18, resnet34, Unet
 
 parser = argparse.ArgumentParser(description='Process some integers.')
 parser.add_argument('--dataset', choices=['MNIST', 'CIFAR10'], default='MNIST')
@@ -186,7 +186,7 @@ bb_train_set, bb_valid_set = random_split(bb_train_set, [split, len(bb_train_set
 bb_train_loader = DataLoader(bb_train_set, batch_size=64, shuffle=True, num_workers=8)
 bb_valid_loader = DataLoader(bb_valid_set, batch_size=64, shuffle=False, num_workers=8)
 
-# test_accuracy(black_box, test_loader, 'black_box test')   # XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX
+test_accuracy(black_box, test_loader, 'black_box test')
 
 ########################################## VIBI #########################################
 
@@ -296,9 +296,6 @@ class VIBI(nn.Module):
             logits_y = self.approximator(x)                                     # (B, 10)
             return logits_z_dummy, logits_y
 
-
-import torchvision
-import matplotlib.pyplot as plt
 
 k = args.k
 beta = args.beta
@@ -442,6 +439,7 @@ def inspect_explanations(save_loc=None, mode='topk', highlight=True):
     x = to_zero_one(x)
     xpl = x * z + 0.5 * (1 - z)
 
+    # # color explanations for MNIST:
     # r = x * (1 - z) + (1 - x) * z + x * z
     # g = x * (1 - z) + (1 - x) * z
     # b = x - x * z
@@ -562,27 +560,5 @@ print('magnified distribution')
 inspect_explanations(save_loc=images_loc.format('best_distribution'), mode='distribution')
 
 
-# XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX
-# inspect_batch = next(iter(test_loader))
-# 54 plane
-# 59 bird
-# 32 nice
-grid = torchvision.utils.make_grid(to_zero_one(inspect_batch[0]).cpu())
-torchvision.utils.save_image(grid, f'results/test_batch.png')
-
-if args.dataset == 'CIFAR10':
-    for i, inspect_batch in enumerate(test_loader):
-        if i != 32:
-            continue
-
-        grid = torchvision.utils.make_grid(to_zero_one(inspect_batch[0]).cpu())
-        torchvision.utils.save_image(grid, f'results/test_batch_{i}.png')
-
-        print('top k explanation')
-        inspect_explanations(save_loc=images_loc.format(f'test_top_k_{i}'), mode='topk')
-        print('test magnified distribution')
-        inspect_explanations(save_loc=images_loc.format(f'test_distribution_{i}'), mode='distribution')
-        break
-
-# pretty_plot(logs, smoothing=50)
-pretty_plot(logs, smoothing=50, save_loc=plot_loc)
+# pretty_plot(logs, smoothing=50, save_loc=plot_loc)
+pretty_plot(logs, smoothing=50)
