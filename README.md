@@ -54,7 +54,7 @@ whereas L2X only optimizes for minimizing the cross-entropy `H(p,q)` between the
 
 | Test Batch      | Explanation Distribution | Top-k Explanation  |
 | :-------------: | :----------------------: | :----------------: |
-| ![MNIST_test_batch](https://user-images.githubusercontent.com/38631399/126166117-1d9235b3-04f8-4b9e-9dde-ccfb64f42942.png) | ![MNIST_best_top_k](https://user-images.githubusercontent.com/38631399/126164087-50a32db7-08f5-45d1-84b0-6b5905c3eeb9.png) | ![MNIST_best_top_k](https://user-images.githubusercontent.com/38631399/126164103-d996b14f-2be2-49be-bcca-7943a2bdfc44.png) |
+| ![MNIST_test_batch](https://user-images.githubusercontent.com/38631399/126166117-1d9235b3-04f8-4b9e-9dde-ccfb64f42942.png) | ![MNIST_best_distribution](https://user-images.githubusercontent.com/38631399/126187923-c3e56d3c-706a-4f56-864f-a15cbee1dc68.png) | ![MNIST_best_top_k](https://user-images.githubusercontent.com/38631399/126164103-d996b14f-2be2-49be-bcca-7943a2bdfc44.png) |
 
 Using `explainer_model=Resnet4x`, `k=4`, `beta=0.01`.
 
