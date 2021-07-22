@@ -31,17 +31,8 @@ parser.add_argument('--num_samples', type=int, default=4,
 parser.add_argument('--resume_training', action='store_true')
 parser.add_argument('--save_best', action='store_true', help='Save only the best models (measured in valid accuracy).')
 parser.add_argument('--save_images_every_epoch', action='store_true', help='Save explanation images every epoch.')
-
 parser.add_argument('--jump_start', action='store_true', default=False)
-
-import sys
-if 'ipykernel' in sys.argv[0]:
-    args = parser.parse_args([
-        '--cuda',
-        '--dataset=CIFAR10',
-    ])
-else:
-    args = parser.parse_args()
+args = parser.parse_args()
 
 print('\n'.join(f'{k}={v}' for k, v in vars(args).items()))
 
